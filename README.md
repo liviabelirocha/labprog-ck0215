@@ -1,5 +1,8 @@
 ## Laboratório de Programação
 
-- Para compilar:
+- To compile:
 
-  `g++ -Wall -Wextra -pedantic -std=c++17 -o main.out program.cpp`
+  ```bash
+  $ chmod u+x compile.sh
+  $ ./compile.sh program.cpp
+  ```
