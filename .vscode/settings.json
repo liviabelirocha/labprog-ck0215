@@ -4,6 +4,8 @@
     "ostream": "cpp",
     "string_view": "cpp",
     "functional": "cpp",
-    "new": "cpp"
+    "new": "cpp",
+    "optional": "cpp",
+    "variant": "cpp"
   }
 }
