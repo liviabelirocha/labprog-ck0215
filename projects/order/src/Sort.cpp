@@ -4,79 +4,47 @@
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
+#include <optional>
 
-using std::srand, std::time, std::rand, std::cout;
+using std::srand, std::time, std::rand, std::cout, std::optional;
 
 #define MIN_VALUE 1
 #define MAX_VALUE 100
 
+template <typename T>
 class Sort
 {
+protected:
+    virtual void worst_case() = 0;
+
 private:
     int _size;
-    int *_vec;
-
-    void ascending()
-    {
-        int *vec = new int[_size];
-
-        srand(time(nullptr));
-        int current = MIN_VALUE,
-            increment = (MAX_VALUE - MIN_VALUE) / _size;
-
-        for (int i = 0; i < _size; i++)
-        {
-            vec[i] = current + rand() % increment;
-            current = vec[i];
-        }
-
-        _vec = vec;
-        delete[] vec;
-    }
-
-    void descending()
-    {
-        int *vec = new int[_size];
-
-        srand(time(nullptr));
-        int current = MAX_VALUE,
-            increment = (MAX_VALUE - MIN_VALUE) / _size;
-
-        for (int i = 0; i < _size; i++)
-        {
-            vec[i] = current - rand() % increment;
-            current = vec[i];
-        }
-
-        _vec = vec;
-        delete[] vec;
-    }
-
-    void random()
-    {
-        int *vec = new int[_size];
-
-        srand(time(nullptr));
-
-        for (int i = 0; i < _size; i++)
-            vec[i] = MIN_VALUE + rand() % (MAX_VALUE - MIN_VALUE + 1);
-
-        _vec = vec;
-        delete[] vec;
-    }
+    T *_vec;
 
 public:
     virtual bool sort() = 0;
-    virtual void worst_case() = 0;
+
+    explicit Sort(int size, optional<T *> vec)
+    {
+        _size = size;
+
+        if (vec.has_value())
+            _vec = vec.value();
+    }
 
     int get_size()
     {
         return _size;
     }
 
-    void set_size(int size)
+    T *get_vec()
     {
-        _size = size;
+        return _vec;
+    }
+
+    void set_vec(T *vec)
+    {
+        _vec = vec;
     }
 };
 

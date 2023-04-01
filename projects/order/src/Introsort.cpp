@@ -9,15 +9,16 @@ enum InsertionSort
     WITH
 };
 
-class Introsort : public Sort
+template <typename T>
+class Introsort : public Sort<T>
 {
 private:
     InsertionSort _insertion_sort;
 
 public:
-    Introsort(int size, InsertionSort is) : _insertion_sort(is)
+    Introsort(int size, InsertionSort is) : Sort<T>(size)
     {
-        this->set_size(size);
+        _insertion_sort = is;
     }
 
     void worst_case() override {}

@@ -9,18 +9,19 @@ enum Pivot
     RANDOM
 };
 
-class Quicksort : public Sort
+template <typename T>
+class Quicksort : public Sort<T>
 {
 private:
     Pivot _pivot;
 
 public:
-    Quicksort(int size, Pivot pivot) : _pivot(pivot)
+    Quicksort(int size, Pivot pivot) : Sort<T>(size)
     {
-        this->set_size(size);
+        _pivot = pivot;
     }
 
-    void worst_case() {}
+    void worst_case() override {}
 
     bool sort() override
     {
