@@ -2,20 +2,23 @@
 #define GENERATOR_CPP
 
 #include <cstdlib>
-#include <ctime>
 #include <iostream>
-#include <optional>
 
-using std::srand, std::time, std::rand, std::optional, std::nullopt, std::cout;
+using std::rand;
 
 #define MIN_VALUE 1
-#define MAX_VALUE 100
 
 template <typename T>
 class Generator
 {
+private:
+    static T get_max(int size)
+    {
+        return size * 2 + 1;
+    }
+
 public:
-    static optional<T *> generate(int size, char *instance)
+    static T *generate(int size, char *instance)
     {
         switch (*instance)
         {
@@ -29,9 +32,10 @@ public:
             return Generator::descending(size);
 
         case 'P':
-            return Generator::worst_case();
+            return Generator::ascending(size);
+
         default:
-            return nullopt;
+            return Generator::ascending(size);
         }
     }
 
@@ -39,9 +43,8 @@ public:
     {
         T *vec = new T[size];
 
-        srand(time(nullptr));
-        int current = MIN_VALUE,
-            increment = (MAX_VALUE - MIN_VALUE) / size;
+        T current = MIN_VALUE,
+          increment = (Generator::get_max(size) - MIN_VALUE) / size;
 
         for (int i = 0; i < size; i++)
         {
@@ -56,9 +59,8 @@ public:
     {
         T *vec = new T[size];
 
-        srand(time(nullptr));
-        int current = MAX_VALUE,
-            increment = (MAX_VALUE - MIN_VALUE) / size;
+        T current = Generator::get_max(size),
+          increment = (Generator::get_max(size) - MIN_VALUE) / T(size);
 
         for (int i = 0; i < size; i++)
         {
@@ -73,17 +75,10 @@ public:
     {
         T *vec = new T[size];
 
-        srand(time(nullptr));
-
         for (int i = 0; i < size; i++)
-            vec[i] = MIN_VALUE + rand() % (MAX_VALUE - MIN_VALUE + 1);
+            vec[i] = MIN_VALUE + rand() % (Generator::get_max(size) - MIN_VALUE + 1);
 
         return vec;
-    }
-
-    static optional<T *> worst_case()
-    {
-        return nullopt;
     }
 };
 

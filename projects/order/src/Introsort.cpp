@@ -23,9 +23,8 @@ public:
 
     void worst_case() override {}
 
-    bool sort() override
+    void sort() override
     {
-        return true;
     }
 };
 

@@ -5,11 +5,10 @@
 #include <ctime>
 #include <iostream>
 #include <optional>
+#include <chrono>
 
-using std::srand, std::time, std::rand, std::cout, std::optional;
-
-#define MIN_VALUE 1
-#define MAX_VALUE 100
+using std::srand, std::time, std::rand, std::cout;
+using namespace std::chrono;
 
 template <typename T>
 class Sort
@@ -22,14 +21,12 @@ private:
     T *_vec;
 
 public:
-    virtual bool sort() = 0;
+    virtual void sort() = 0;
 
-    explicit Sort(int size, optional<T *> vec)
+    explicit Sort(int size, T *vec)
     {
         _size = size;
-
-        if (vec.has_value())
-            _vec = vec.value();
+        _vec = vec;
     }
 
     int get_size()
@@ -45,6 +42,15 @@ public:
     void set_vec(T *vec)
     {
         _vec = vec;
+    }
+
+    double get_time()
+    {
+        auto start = high_resolution_clock::now();
+        this->sort();
+        auto end = high_resolution_clock::now();
+
+        return duration_cast<duration<double>>(end - start).count();
     }
 };
 

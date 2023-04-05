@@ -8,7 +8,7 @@
 #include "./Sort.cpp"
 #include "./Generator.cpp"
 
-using std::optional, std::cout, std::swap, std::memcpy;
+using std::cout, std::swap, std::memcpy;
 
 template <typename T>
 class Heapsort : public Sort<T>
@@ -87,41 +87,26 @@ private:
     }
 
 public:
-    Heapsort(int size, optional<T *> v) : Sort<T>(size, v)
+    Heapsort(int size, T *v) : Sort<T>(size, v)
     {
-        if (!v.has_value())
-            this->worst_case();
-
         _heap = new T[size];
         memcpy(_heap, this->get_vec(), size * sizeof(T));
     }
 
-    bool sort() override
+    ~Heapsort()
     {
-        int *end = this->get_vec() + this->get_size();
+        delete[] _heap;
+    }
 
-        for (int *i = this->get_vec(); i != end; i++)
-            cout << *i << " ";
-        cout << '\n';
-
+    void sort() override
+    {
         build_max_heap();
-
-        int *end2 = _heap + this->get_size();
-
-        for (int *i = _heap; i != end2; i++)
-            cout << *i << " ";
-
-        cout << '\n';
-
         heapsort();
 
-        int *end3 = _heap + this->get_size();
-
-        for (int *i = _heap; i != end3; i++)
-            cout << *i << " ";
-
-        cout << '\n';
-        return true;
+        // int *end = _heap + this->get_size();
+        // for (int *i = _heap; i != end; i++)
+        //     cout << *i << " ";
+        // cout << '\n';
     }
 };
 
