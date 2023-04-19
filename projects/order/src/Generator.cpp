@@ -4,6 +4,8 @@
 #include <cstdlib>
 #include <iostream>
 
+#include "./Random.cpp"
+
 using std::rand;
 
 #define MIN_VALUE 1
@@ -14,7 +16,8 @@ class Generator
 private:
     static T get_max(int size)
     {
-        return size * 2 + 1;
+
+        return size < 50 ? 100 : size * 2 + 1;
     }
 
 public:
@@ -41,6 +44,7 @@ public:
 
     static T *ascending(int size)
     {
+        Random *random = Random::GetInstance();
         T *vec = new T[size];
 
         T current = MIN_VALUE,
@@ -48,7 +52,7 @@ public:
 
         for (int i = 0; i < size; i++)
         {
-            vec[i] = current + rand() % increment;
+            vec[i] = current + random->get_random_from_interval(0, increment);
             current = vec[i];
         }
 
@@ -57,6 +61,7 @@ public:
 
     static T *descending(int size)
     {
+        Random *random = Random::GetInstance();
         T *vec = new T[size];
 
         T current = Generator::get_max(size),
@@ -64,7 +69,7 @@ public:
 
         for (int i = 0; i < size; i++)
         {
-            vec[i] = current - rand() % increment;
+            vec[i] = current - random->get_random_from_interval(0, increment);
             current = vec[i];
         }
 
@@ -73,10 +78,11 @@ public:
 
     static T *random(int size)
     {
+        Random *random = Random::GetInstance();
         T *vec = new T[size];
 
         for (int i = 0; i < size; i++)
-            vec[i] = MIN_VALUE + rand() % (Generator::get_max(size) - MIN_VALUE + 1);
+            vec[i] = MIN_VALUE + random->get_random_from_interval(0, Generator::get_max(size) - MIN_VALUE + 1);
 
         return vec;
     }

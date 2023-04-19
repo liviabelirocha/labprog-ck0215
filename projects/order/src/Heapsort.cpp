@@ -16,11 +16,11 @@ class Heapsort : public Sort<T>
 private:
     T *_heap;
 
-    void worst_case() override
-    {
-        T *v = Generator<T>::ascending(this->get_size());
-        this->set_vec(v);
-    }
+    // void worst_case() override
+    // {
+    //     T *v = Generator<T>::ascending(this->get_size());
+    //     this->set_vec(v);
+    // }
 
     int left_child(int i)
     {
@@ -103,10 +103,16 @@ public:
         build_max_heap();
         heapsort();
 
+        // cout << "heapsort" << std::endl;
         // int *end = _heap + this->get_size();
         // for (int *i = _heap; i != end; i++)
         //     cout << *i << " ";
         // cout << '\n';
+    }
+
+    T *get_ordered() override
+    {
+        return _heap;
     }
 };
 
